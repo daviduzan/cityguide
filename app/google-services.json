@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "66287994849",
+    "firebase_url": "https://treats-f54a3.firebaseio.com",
+    "project_id": "treats-f54a3",
+    "storage_bucket": "treats-f54a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66287994849:android:fc6f0c1cec73b779",
+        "android_client_info": {
+          "package_name": "com.treats.treats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66287994849-iujr02rpu23tnnmemuln3g6bmrjqouqn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.treats.treats",
+            "certificate_hash": "6F578A9CBDAA1CC1E675FB3BB6B9079EE62A741D"
+          }
+        },
+        {
+          "client_id": "66287994849-icets59sh4l9rbll5ju8jfuojb5647sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBatcTFRMFIgXbMt_sHesR-zsw3mD-FEk4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66287994849-icets59sh4l9rbll5ju8jfuojb5647sv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

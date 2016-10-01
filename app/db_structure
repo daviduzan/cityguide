@@ -1,0 +1,104 @@
+{
+  "places": {
+    "yom-tov": {
+      "title": "Yom Tov Cafe",
+      "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+      "description": "Yom Tov cafe is great place for bla bla. \n You can have bla bla"
+      "hours": {
+          "sunday":"8:00 - 13:00",
+          "monday":"8:00 - 13:00",
+          "tuesday":"8:00 - 13:00",
+          "wednesday":"8:00 - 13:00"
+      }
+    },
+    "buke": {
+        "title": "Buke",
+              "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+              "description": "Buke cafe is great place for bla bla. \n You can have bla bla"
+              "hours": {
+                  "sunday":"8:00 - 13:00",
+                  "monday":"8:00 - 13:00",
+                  "tuesday":"8:00 - 13:00",
+                  "wednesday":"8:00 - 13:00"
+              }
+    }
+},
+  "events": {
+    "this-event": {
+      "title": "This Event",
+      "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+      "description": "Yom Tov cafe is great place for bla bla. \n You can have bla bla"
+      "hours": {
+          "sunday":"8:00 - 13:00",
+          "monday":"8:00 - 13:00",
+          "tuesday":"8:00 - 13:00",
+          "wednesday":"8:00 - 13:00"
+      }
+    },
+    "that-event": {
+        "title": "Yom Tov Cafe",
+              "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+              "description": "Yom Tov cafe is great place for bla bla. \n You can have bla bla"
+              "hours": {
+                  "sunday":"8:00 - 13:00",
+                  "monday":"8:00 - 13:00",
+                  "tuesday":"8:00 - 13:00",
+                  "wednesday":"8:00 - 13:00"
+              }
+    }
+},
+
+"categories": {
+  "cafes": {
+    "name": "Cafe\'s",
+    "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+    "collection": "cafes-collection"
+  },
+  "restaurants": {
+      "name": "Go Dining!",
+      "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+      "collection": "restaurants-main-collection"
+    }
+},
+
+"collections": {
+    "cafes-collection": {
+        "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+        "description": "Go out and have a good cofee bla bla",
+        "places": {
+            "yom-tov": true,
+            "buke": true
+        },
+        "events": {
+            "this-event": true,
+            "that-event": true
+        },
+        "show_flag": 1,
+        "show-order": {
+            1: "yom-tov",
+            2: "buke",
+            3: "this-event",
+            4:"that-event"
+        }
+    },
+    "other-collection": {
+            "image": "http://oakbaybeachhotel.com/wp-content/uploads/2015/05/KatesCafe.jpg",
+            "description": "Other trendy collection 7 things to do out bla bla",
+            "places": {
+                "yom-tov": true,
+                "buke": true
+            },
+            "events": {
+                "this-event": true,
+                "that-event": true
+            },
+            "show_flag": 1,
+            "show-order": {
+                1: "yom-tov",
+                2: "buke",
+                3: "this-event",
+                4:"that-event"
+            }
+        }
+    }
+}

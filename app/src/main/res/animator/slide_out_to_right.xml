@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/top_level_transition_length"
+    android:propertyName="x"
+    android:valueFrom="0"
+    android:valueTo="1000"
+    android:valueType="floatType"
+    android:interpolator="@android:interpolator/linear" />
