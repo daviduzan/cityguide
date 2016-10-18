@@ -11,9 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.treats.treats.R;
-import com.treats.treats.fragments.categories.CategoriesGridFragment;
+import com.treats.treats.fragments.categories.caterories_grid.CategoriesGridFragment;
 import com.treats.treats.fragments.categories.category_list.CategoryListFragment;
-import com.treats.treats.fragments.collection.CollectionsFragment;
+import com.treats.treats.fragments.user_lists.UserListsMainFragment;
+import com.treats.treats.fragments.user_lists.user_list.UserListFragment;
 import com.treats.treats.fragments.place.PlaceFragment;
 import com.treats.treats.fragments.trending.TrendingListFragment;
 import com.treats.treats.infra.factories.NodeFactory;
@@ -45,14 +46,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void showCategoryListFragment(String collectionName) {
-        CategoryListFragment fragment = CategoryListFragment.newInstance(collectionName);
+    public void showCategoryListFragment(String categoryCollectionName) {
+        CategoryListFragment fragment = CategoryListFragment.newInstance(categoryCollectionName);
         int[] animations = getAnimationsBasedOnRTL();
         getFragmentManager().beginTransaction()
         .setCustomAnimations(animations[0], animations[1], animations[2], animations[3])
         .addToBackStack(null)
         .add(R.id.fullscreen_fragment_container, fragment)
         .commit();
+    }
+
+    public void showUserListFragment(String personalCollectionName) {
+        UserListFragment fragment = UserListFragment.newInstance(personalCollectionName);
+        int[] animations = getAnimationsBasedOnRTL();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(animations[0], animations[1], animations[2], animations[3])
+                .addToBackStack(null)
+                .add(R.id.fullscreen_fragment_container, fragment)
+                .commit();
     }
 
     public void showPlaceFragment(String placeName) {
@@ -94,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return CategoriesGridFragment.newInstance();
                 case 2:
-                    return CollectionsFragment.newInstance();
+                    return UserListsMainFragment.newInstance();
                 default:
                     return TrendingListFragment.newInstance();
             }

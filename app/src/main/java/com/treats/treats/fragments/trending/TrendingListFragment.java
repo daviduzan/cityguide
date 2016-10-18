@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.treats.treats.App;
 import com.treats.treats.R;
 import com.treats.treats.infra.factories.NodeFactory;
 import com.treats.treats.infra.fragments.BaseFragment;
@@ -37,7 +38,7 @@ public class TrendingListFragment extends BaseFragment implements TrendingDataNo
         mTrendingDataNode = (TrendingDataNode) NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.TRENDING);
         mTrendingDataNode.registerClientCallback(this);
 
-        mAdapter = new TrendingListSectionedAdapter(mTrendingDataNode.getGroups());
+        mAdapter = new TrendingListSectionedAdapter(mTrendingDataNode.getGroups(), this);
     }
 
     @Override
@@ -80,6 +81,7 @@ public class TrendingListFragment extends BaseFragment implements TrendingDataNo
 
     @Override
     public void onItemClick(int section, int relativePosition) {
+        App.log("CLICK: " + section + ", " + relativePosition);
         ServerModels.TrendingItemSM trendingItemSM = mTrendingDataNode.getGroups().get(section).getMembers().get(relativePosition);
         if (trendingItemSM.getPlace() != null) {
             getMainActivity().showPlaceFragment(trendingItemSM.getPlace());

@@ -1,4 +1,4 @@
-package com.treats.treats.fragments.categories;
+package com.treats.treats.fragments.categories.caterories_grid;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

@@ -6,6 +6,7 @@ import com.treats.treats.infra.exceptions.UndefinedCaseException;
 import com.treats.treats.infra.nodes.BaseNode;
 import com.treats.treats.nodes.PlacesDataNode;
 import com.treats.treats.nodes.TrendingDataNode;
+import com.treats.treats.nodes.UserDataNode;
 
 /**
  * Created by david.uzan on 4/19/2016.
@@ -16,7 +17,8 @@ public class NodeFactory {
             CATEGORIES,
             COLLECTIONS,
             PLACES,
-            TRENDING
+            TRENDING,
+            USER
         }
 
         public static BaseNode createNewNode(NodeType nodeType) {
@@ -29,6 +31,8 @@ public class NodeFactory {
                     return new PlacesDataNode(nodeType);
                 case TRENDING:
                     return new TrendingDataNode(nodeType);
+                case USER:
+                    return new UserDataNode(nodeType);
             }
                     throw new UndefinedCaseException(nodeType.name(), NodeType.class);
         }

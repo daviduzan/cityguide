@@ -1,4 +1,4 @@
-package com.treats.treats.fragments.collection;
+package com.treats.treats.fragments.user_lists;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,21 +7,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.treats.treats.R;
+import com.treats.treats.models.UserList;
+
+import java.util.ArrayList;
 
 /**
  * Created by david.uzan on 9/1/2016.
  */
-public class CollectionsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    public static final int ITEM_TYPE_CATEGORY = 0;
-    public static final int ITEM_TYPE_NORMAL = 1;
+public class UserListsMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private View.OnClickListener mOnClickListener;
     private OnItemClickListener mOnItemClickListener;
-    private String[] mDataset;
+    private ArrayList<UserList> mUserLists;
 
-    public CollectionsListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public UserListsMainAdapter(ArrayList<UserList> userLists) {
+        mUserLists = userLists;
 
         mOnClickListener = new View.OnClickListener() {
             @Override
@@ -38,36 +38,19 @@ public class CollectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                       int viewType) {
-        switch (viewType) {
-            case ITEM_TYPE_NORMAL:
-                View v0 = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.collections_list_item, parent, false);
-                return new ListItemViewHolder(v0, mOnClickListener);
-        }
-
-        return null;
-
+        View v0 = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.user_lists_main_list_item, parent, false);
+        return new ListItemViewHolder(v0, mOnClickListener);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        int type = getItemViewType(position);
-        switch (type) {
-            case ITEM_TYPE_NORMAL:
-                ((ListItemViewHolder) holder).bindData(position, mDataset[position]);
-                break;
-        }
-
+        ((ListItemViewHolder) holder).bindData(position, mUserLists.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return ITEM_TYPE_NORMAL;
+        return mUserLists.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -76,6 +59,11 @@ public class CollectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+    }
+
+    public void setUserCollectionsData(ArrayList<UserList> userLists) {
+        mUserLists = userLists;
+        notifyDataSetChanged();
     }
 
 
@@ -91,21 +79,6 @@ public class CollectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public void bindData(int position, String data) {
             itemView.setTag(position);
             mTextView.setText(data);
-        }
-    }
-
-    public static class ListCategoryViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView tvLabel;
-
-        public ListCategoryViewHolder(View view) {
-            super(view);
-
-            tvLabel = (TextView) view.findViewById(R.id.tv_category);
-        }
-
-        public void setCategoryText(String text) {
-            tvLabel.setText(text);
         }
     }
 }

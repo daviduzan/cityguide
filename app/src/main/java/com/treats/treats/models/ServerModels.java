@@ -2,6 +2,7 @@ package com.treats.treats.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by david.uzan on 9/9/2016.
@@ -30,30 +31,43 @@ public class ServerModels {
         }
     }
 
-    public static class CollectionSM {
+    public static class SimpleCollectionSM {
 
-        public ArrayList<String> members;
-        public ArrayList<Integer> types;
+        public Map<String, Boolean> members;
         public String description;
-        public int showFlag;
 
-        public CollectionSM() {
+        public SimpleCollectionSM() {
         }
 
-        public ArrayList<String> getMembers() {
+        public Map<String, Boolean> getMembers() {
             return members;
-        }
-
-        public ArrayList<Integer> getTypes() {
-            return types;
         }
 
         public String getDescription() {
             return description;
         }
 
-        public int getShowFlag() {
-            return showFlag;
+    }
+
+    public static class CollectionCategorySM {
+
+        public ArrayList<String> members;
+        public String title;
+        public String description;
+
+        public CollectionCategorySM() {
+        }
+
+        public ArrayList<String> getMembers() {
+            return members;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 
@@ -85,9 +99,9 @@ public class ServerModels {
 
     public static class TrendingGroupSM {
 
+        public ArrayList<TrendingItemSM> members;
         String headline_one;
         String headline_two;
-        public ArrayList<TrendingItemSM> members;
 
         public TrendingGroupSM() {
         }
@@ -125,6 +139,38 @@ public class ServerModels {
 
         public String getCollection() {
             return collection;
+        }
+    }
+
+    public static class UserSM {
+
+        public String name;
+        public Map<String, UserListSM> lists;
+        public UserSM() {
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Map<String, UserListSM> getLists() {
+            return lists;
+        }
+    }
+
+    public static class UserListSM {
+
+        String name;
+        Map<String, Boolean> places;
+        public UserListSM() {
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Map<String, Boolean> getPlaces() {
+            return places;
         }
     }
 }

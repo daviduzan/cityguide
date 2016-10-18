@@ -20,23 +20,24 @@ public class TrendingListSectionedAdapter extends SectionedRecyclerViewAdapter<R
     public static final int TAG_KEY_SECTION = 0;
     public static final int TAG_KEY_RELATIVE_POSITION = 1;
 
-    private View.OnClickListener mOnClickListener;
+    //    private View.OnClickListener mOnClickListener;
     private OnItemClickListener mOnItemClickListener;
     private ArrayList<ServerModels.TrendingGroupSM> mTrendings;
 
-    public TrendingListSectionedAdapter(ArrayList<ServerModels.TrendingGroupSM> trendingGroupSMs) {
+    public TrendingListSectionedAdapter(ArrayList<ServerModels.TrendingGroupSM> trendingGroupSMs, OnItemClickListener onItemClickListener) {
         mTrendings = trendingGroupSMs;
+        mOnItemClickListener = onItemClickListener;
 
-        mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (mOnItemClickListener != null) {
-
-                    mOnItemClickListener.onItemClick((int) view.getTag(TAG_KEY_SECTION), (int) view.getTag(TAG_KEY_RELATIVE_POSITION));
-                }
-            }
-        };
+//        mOnClickListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (mOnItemClickListener != null) {
+//
+//                    mOnItemClickListener.onItemClick((int) view.getTag(TAG_KEY_SECTION), (int) view.getTag(TAG_KEY_RELATIVE_POSITION));
+//                }
+//            }
+//        };
     }
 
     @Override
@@ -44,7 +45,7 @@ public class TrendingListSectionedAdapter extends SectionedRecyclerViewAdapter<R
         // Change inflated layout based on 'header'.
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(viewType == VIEW_TYPE_HEADER ? R.layout.category_list_group_header : R.layout.category_list_item, parent, false);
-        return new TrendingListViewHolder(v, mOnClickListener);
+        return new TrendingListViewHolder(v, mOnItemClickListener);
 
     }
 
@@ -61,7 +62,7 @@ public class TrendingListSectionedAdapter extends SectionedRecyclerViewAdapter<R
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int section) {
         // Setup header view.
-        ((TrendingListViewHolder) holder).bindHeaderData(mTrendings.get(section).getHeadline_one());
+        ((TrendingListViewHolder) holder).bindHeaderData(section, mTrendings.get(section).getHeadline_one());
     }
 
     @Override
@@ -77,10 +78,6 @@ public class TrendingListSectionedAdapter extends SectionedRecyclerViewAdapter<R
         // TODO get the member from events/places table and set values
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        mOnItemClickListener = onItemClickListener;
-    }
-
     public void setData(ArrayList<ServerModels.TrendingGroupSM> data) {
         mTrendings = data;
         notifyDataSetChanged();
@@ -90,26 +87,39 @@ public class TrendingListSectionedAdapter extends SectionedRecyclerViewAdapter<R
         void onItemClick(int section, int relativePosition);
     }
 
-    private static class TrendingListViewHolder extends RecyclerView.ViewHolder {
+    private static class TrendingListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvItem;
         TextView tvLabel;
-        int section;
+        int mSection;
+        int mRelativePosition;
+        OnItemClickListener mOnClickListener;
 
-        TrendingListViewHolder(View v, View.OnClickListener clickListener) {
+        TrendingListViewHolder(View v, OnItemClickListener onItemClickListener) {
             super(v);
-            this.itemView.setOnClickListener(clickListener);
+            v.setOnClickListener(this);
             tvItem = (TextView) v.findViewById(R.id.temp_text_list);
             tvLabel = (TextView) v.findViewById(R.id.tv_category);
+            mOnClickListener = onItemClickListener;
         }
 
         void bindItemData(int section, int relativePosition, String data) {
-            itemView.setTag(TAG_KEY_SECTION, section);
-            itemView.setTag(TAG_KEY_RELATIVE_POSITION, relativePosition);
             tvItem.setText(data);
+            mSection = section;
+            mRelativePosition = relativePosition;
         }
 
-        void bindHeaderData(String data) {
+
+        public void bindHeaderData(int section, String data) {
             tvLabel.setText(data);
+            mSection = section;
+            mRelativePosition = -1;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mRelativePosition != -1 && mOnClickListener != null) {
+                mOnClickListener.onItemClick(mSection, mRelativePosition);
+            }
         }
     }
 }

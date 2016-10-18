@@ -9,25 +9,32 @@ import com.treats.treats.App;
 import com.treats.treats.infra.factories.NodeFactory;
 import com.treats.treats.infra.nodes.BaseDataNode;
 import com.treats.treats.infra.nodes.BaseNetworkNode;
-import com.treats.treats.models.Collection;
 import com.treats.treats.models.ServerModels;
+import com.treats.treats.models.SimpleCollection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by david.uzan on 9/3/2016.
  */
 public class CollectionsDataNode extends BaseDataNode implements ValueEventListener {
 
-    private HashMap<String, Collection> mCollections;
-    private DatabaseReference mDatabaseReference;
+    private HashMap<String, SimpleCollection> mSimpleCollections;
+    private HashMap<String, List<ServerModels.CollectionCategorySM>> mCategorizedCollections;
+
+    private DatabaseReference mSimpleCollectionsDatabaseReference;
+    private DatabaseReference mCategorizedCollectionsDatabaseReference;
 
     public CollectionsDataNode(NodeFactory.NodeType nodeType) {
         super(nodeType);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mDatabaseReference = database.getReference("collections");
-        mDatabaseReference.addValueEventListener(this);
+        mSimpleCollectionsDatabaseReference = database.getReference("collections/simple-collections");
+        mSimpleCollectionsDatabaseReference.addValueEventListener(this);
+
+        mCategorizedCollectionsDatabaseReference = database.getReference("collections/categorized-collections");
+        mCategorizedCollectionsDatabaseReference.addValueEventListener(this);
     }
 
     @Override
@@ -47,40 +54,54 @@ public class CollectionsDataNode extends BaseDataNode implements ValueEventListe
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        HashMap<String, Collection> collections = new HashMap<>();
-        for (DataSnapshot child : dataSnapshot.getChildren()) {
-            ServerModels.CollectionSM collectionSM = child.getValue(ServerModels.CollectionSM.class);
-            collections.put(child.getKey(), Collection.fromSM(collectionSM));
+        switch (dataSnapshot.getKey()) {
+            case "simple-collections":
+                HashMap<String, SimpleCollection> simpleCollections = new HashMap<>();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    ServerModels.SimpleCollectionSM simpleCollectionSM = child.getValue(ServerModels.SimpleCollectionSM.class);
+                    simpleCollections.put(child.getKey(), SimpleCollection.fromSM(simpleCollectionSM));
+                }
+                mSimpleCollections = simpleCollections;
+                for (ClientCallback callback : getClientCallbacks()) {
+                    ((CollectionsClientCallback) callback).onSimpleCollectionsDataSuccess();
+                }
+                break;
+
+            case "categorized-collections":
+                HashMap<String, List<ServerModels.CollectionCategorySM>> categorizedCollections = new HashMap<>();
+                for (DataSnapshot categorizedChild : dataSnapshot.getChildren()) {
+                    ArrayList<ServerModels.CollectionCategorySM> categories = new ArrayList<>();
+                    for (DataSnapshot categoryData : categorizedChild.getChildren()) {
+                        ServerModels.CollectionCategorySM collectionCategorySM = categoryData.getValue(ServerModels.CollectionCategorySM.class);
+                        categories.add(collectionCategorySM);
+                    }
+                    categorizedCollections.put(categorizedChild.getKey(), categories);
+                }
+                mCategorizedCollections = categorizedCollections;
+
+                break;
         }
-        mCollections = collections;
-        for (ClientCallback callback : getClientCallbacks()) {
-            ((CollectionsClientCallback) callback).onCollectionsDataSuccess();
-        }
+
+
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
         App.log("Failed to read value." + databaseError.toException());
-        if (mCollections == null || mCollections.isEmpty()) {
-            for (ClientCallback callback : getClientCallbacks()) {
-                callback.onConnectivityError();
-            }
-        }
+//        if (mCollections == null || mCollections.isEmpty()) {
+//            for (ClientCallback callback : getClientCallbacks()) {
+//                callback.onConnectivityError();
+//            }
+//        }
     }
 
-    public Collection getCollection(String collectionName) {
-        if (mCollections == null) return Collection.fromSM(new ServerModels.CollectionSM());
-        Collection collection = mCollections.get(collectionName);
-        if (collection == null) {
-            collection = new Collection();
-            collection.setMembers(new ArrayList<String>());
-            collection.setTypes(new ArrayList<Integer>());
-            return collection;
-        }
+    public SimpleCollection getSimpleCollection(String collectionName) {
+        if (mSimpleCollections == null) return null;
+        SimpleCollection collection = mSimpleCollections.get(collectionName);
         return collection;
     }
 
     public interface CollectionsClientCallback extends ClientCallback {
-        void onCollectionsDataSuccess();
+        void onSimpleCollectionsDataSuccess();
     }
 }
