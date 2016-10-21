@@ -1,4 +1,4 @@
-package com.treats.treats.fragments.user_lists;
+package com.treats.treats.fragments.user_lists.main;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

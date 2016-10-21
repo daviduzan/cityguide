@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import com.treats.treats.R;
 import com.treats.treats.fragments.categories.caterories_grid.CategoriesGridFragment;
 import com.treats.treats.fragments.categories.category_list.CategoryListFragment;
-import com.treats.treats.fragments.user_lists.UserListsMainFragment;
+import com.treats.treats.fragments.user_lists.main.UserListsMainFragment;
 import com.treats.treats.fragments.user_lists.user_list.UserListFragment;
 import com.treats.treats.fragments.place.PlaceFragment;
 import com.treats.treats.fragments.trending.TrendingListFragment;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         .commit();
     }
 
-    public void showUserListFragment(String personalCollectionName) {
+public void showUserListFragment(String personalCollectionName) {
         UserListFragment fragment = UserListFragment.newInstance(personalCollectionName);
         int[] animations = getAnimationsBasedOnRTL();
         getFragmentManager().beginTransaction()

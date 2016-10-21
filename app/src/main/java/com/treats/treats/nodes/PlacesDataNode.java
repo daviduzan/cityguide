@@ -50,6 +50,7 @@ public class PlacesDataNode extends BaseDataNode implements ValueEventListener {
         HashMap<String, Place> placeHashMap = new HashMap<>();
         for (DataSnapshot child : dataSnapshot.getChildren()) {
             ServerModels.PlaceSM placeSM = child.getValue(ServerModels.PlaceSM.class);
+            placeSM.name = child.getKey();
             placeHashMap.put(child.getKey(), Place.fromSM(placeSM));
         }
         mPlaces = placeHashMap;

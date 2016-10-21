@@ -1,4 +1,4 @@
-package com.treats.treats.fragments.user_lists;
+package com.treats.treats.fragments.user_lists.main;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,6 +54,10 @@ public class UserListsMainFragment extends BaseFragment implements UserDataNode.
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
     @Override
     public void onPendingDataFromServer() {

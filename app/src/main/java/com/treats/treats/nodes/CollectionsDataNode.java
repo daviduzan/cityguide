@@ -14,7 +14,6 @@ import com.treats.treats.models.SimpleCollection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by david.uzan on 9/3/2016.
@@ -22,7 +21,7 @@ import java.util.List;
 public class CollectionsDataNode extends BaseDataNode implements ValueEventListener {
 
     private HashMap<String, SimpleCollection> mSimpleCollections;
-    private HashMap<String, List<ServerModels.CollectionCategorySM>> mCategorizedCollections;
+    private HashMap<String, ArrayList<ServerModels.CollectionCategorySM>> mCategorizedCollections;
 
     private DatabaseReference mSimpleCollectionsDatabaseReference;
     private DatabaseReference mCategorizedCollectionsDatabaseReference;
@@ -68,7 +67,7 @@ public class CollectionsDataNode extends BaseDataNode implements ValueEventListe
                 break;
 
             case "categorized-collections":
-                HashMap<String, List<ServerModels.CollectionCategorySM>> categorizedCollections = new HashMap<>();
+                HashMap<String, ArrayList<ServerModels.CollectionCategorySM>> categorizedCollections = new HashMap<>();
                 for (DataSnapshot categorizedChild : dataSnapshot.getChildren()) {
                     ArrayList<ServerModels.CollectionCategorySM> categories = new ArrayList<>();
                     for (DataSnapshot categoryData : categorizedChild.getChildren()) {
@@ -78,6 +77,9 @@ public class CollectionsDataNode extends BaseDataNode implements ValueEventListe
                     categorizedCollections.put(categorizedChild.getKey(), categories);
                 }
                 mCategorizedCollections = categorizedCollections;
+                for (ClientCallback callback : getClientCallbacks()) {
+                    ((CollectionsClientCallback) callback).onCategorizedCollectionDataSuccess();
+                }
 
                 break;
         }
@@ -101,7 +103,14 @@ public class CollectionsDataNode extends BaseDataNode implements ValueEventListe
         return collection;
     }
 
+    public ArrayList<ServerModels.CollectionCategorySM> getCategorizedCollection(String collectionName) {
+        if (mCategorizedCollections == null) return null;
+        return mCategorizedCollections.get(collectionName);
+    }
+
     public interface CollectionsClientCallback extends ClientCallback {
         void onSimpleCollectionsDataSuccess();
+
+        void onCategorizedCollectionDataSuccess();
     }
 }

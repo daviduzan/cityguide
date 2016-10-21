@@ -10,6 +10,8 @@ public class User {
 
     private String mName;
     private ArrayList<UserList> mUserLists;
+    private String mDeviceModel;
+    private String mDeviceManufacturer;
 
     public User() {
         mUserLists = new ArrayList<>();
@@ -17,13 +19,16 @@ public class User {
 
     public static User fromSM(ServerModels.UserSM userSM) {
         User user = new User();
-        user.mName = userSM.getName();
-        user.mUserLists = new ArrayList<>();
-        for (String key : userSM.getLists().keySet()) {
-            ServerModels.UserListSM listSM = userSM.getLists().get(key);
-            user.mUserLists.add(UserList.fromSM(listSM));
+        if (userSM == null) return user;
+        user.mName = userSM.name;
+        user.mDeviceModel = userSM.deviceModel;
+        user.mDeviceManufacturer = userSM.deviceManufacturer;
+        if (userSM.lists != null) {
+            for (String key : userSM.lists.keySet()) {
+                ServerModels.UserListSM listSM = userSM.lists.get(key);
+                user.mUserLists.add(UserList.fromSM(listSM));
+            }
         }
-
         return user;
     }
 
@@ -33,5 +38,13 @@ public class User {
 
     public ArrayList<UserList> getUserLists() {
         return mUserLists;
+    }
+
+    public String getDeviceModel() {
+        return mDeviceModel;
+    }
+
+    public String getDeviceManufacturer() {
+        return mDeviceManufacturer;
     }
 }

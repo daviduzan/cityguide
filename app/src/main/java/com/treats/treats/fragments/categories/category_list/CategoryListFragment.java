@@ -10,19 +10,23 @@ import android.view.ViewGroup;
 
 import com.treats.treats.App;
 import com.treats.treats.R;
-import com.treats.treats.models.SimpleCollection;
-import com.treats.treats.nodes.CollectionsDataNode;
 import com.treats.treats.infra.factories.NodeFactory;
 import com.treats.treats.infra.fragments.BaseFragment;
 import com.treats.treats.infra.nodes.NodesProvider;
+import com.treats.treats.models.ServerModels;
+import com.treats.treats.models.SimpleCollection;
+import com.treats.treats.nodes.CollectionsDataNode;
+
+import java.util.ArrayList;
 
 
-public class CategoryListFragment extends BaseFragment implements CollectionsDataNode.CollectionsClientCallback, SimpleCollectionAdapter.OnItemClickListener {
+public class CategoryListFragment extends BaseFragment implements CollectionsDataNode.CollectionsClientCallback, SimpleCollectionAdapter.OnItemClickListener, CategorizedCollectionSectionedAdapter.OnItemClickListener {
 
     public static final String ARGS_KEY_COLLECTION_NAME = "args_key_collection_name";
 
     private CollectionsDataNode mCollectionsDataNode;
     private SimpleCollectionAdapter mSimpleCollectionAdapter;
+    private CategorizedCollectionSectionedAdapter mCategorizedCollectionSectionedAdapter;
     private String mCollectionName;
 
     public static CategoryListFragment newInstance(String collectionName) {
@@ -39,12 +43,19 @@ public class CategoryListFragment extends BaseFragment implements CollectionsDat
         mCollectionName = getArguments().getString(ARGS_KEY_COLLECTION_NAME);
         mCollectionsDataNode = (CollectionsDataNode) NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.COLLECTIONS);
         SimpleCollection simpleCollection = mCollectionsDataNode.getSimpleCollection(mCollectionName);
-        if (simpleCollection == null) {
-            getFragmentManager().popBackStack();
-            App.toast("Collection " + mCollectionName + " not found");
+        if (simpleCollection != null) {
+            mSimpleCollectionAdapter = new SimpleCollectionAdapter(simpleCollection);
+            mCollectionsDataNode.registerClientCallback(this);
+        } else {
+            ArrayList<ServerModels.CollectionCategorySM> categorizedCollection = mCollectionsDataNode.getCategorizedCollection(mCollectionName);
+            if (categorizedCollection != null) {
+                mCategorizedCollectionSectionedAdapter = new CategorizedCollectionSectionedAdapter(categorizedCollection, this);
+                mCollectionsDataNode.registerClientCallback(this);
+            } else {
+                getFragmentManager().popBackStack();
+                App.toast("Collection " + mCollectionName + " not found");
+            }
         }
-        mSimpleCollectionAdapter = new SimpleCollectionAdapter(simpleCollection);
-        mCollectionsDataNode.registerClientCallback(this);
     }
 
     @Override
@@ -59,9 +70,13 @@ public class CategoryListFragment extends BaseFragment implements CollectionsDat
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.setAdapter(mSimpleCollectionAdapter);
+        if (mSimpleCollectionAdapter != null) {
+            recyclerView.setAdapter(mSimpleCollectionAdapter);
+            mSimpleCollectionAdapter.setOnItemClickListener(this);
+        } else if (mCategorizedCollectionSectionedAdapter != null) {
+            recyclerView.setAdapter(mCategorizedCollectionSectionedAdapter);
+        }
 
-        mSimpleCollectionAdapter.setOnItemClickListener(this);
         return view;
     }
 
@@ -73,12 +88,22 @@ public class CategoryListFragment extends BaseFragment implements CollectionsDat
 
     @Override
     public void onItemClick(int position) {
-//        getMainActivity().showPlaceFragment(mCollectionsDataNode.getCollection(mCollectionName).getMembers().get(position));
+        getMainActivity().showPlaceFragment(mCollectionsDataNode.getSimpleCollection(mCollectionName).getMembers().get(position));
+    }
+
+    @Override
+    public void onItemClick(int section, int relativePosition) {
+        getMainActivity().showPlaceFragment(mCollectionsDataNode.getCategorizedCollection(mCollectionName).get(section).getMembers().get(relativePosition));
     }
 
     @Override
     public void onSimpleCollectionsDataSuccess() {
         mSimpleCollectionAdapter.setSimpleCollectionsData(mCollectionsDataNode.getSimpleCollection(mCollectionName));
+    }
+
+    @Override
+    public void onCategorizedCollectionDataSuccess() {
+        mCategorizedCollectionSectionedAdapter.setCategorizedCollectionData(mCollectionsDataNode.getCategorizedCollection(mCollectionName));
     }
 
     @Override

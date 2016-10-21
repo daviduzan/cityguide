@@ -1,5 +1,7 @@
 package com.treats.treats.models;
 
+import android.os.Build;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +78,7 @@ public class ServerModels {
         public String title;
         public HashMap<String, String> hours;
         public String image;
+        public String name;
 
         public PlaceSM() {
         }
@@ -146,7 +149,12 @@ public class ServerModels {
 
         public String name;
         public Map<String, UserListSM> lists;
+        public String deviceModel;
+        public String deviceManufacturer;
+
         public UserSM() {
+            deviceModel = Build.MODEL;
+            deviceManufacturer = Build.MANUFACTURER;
         }
 
         public String getName() {
@@ -156,12 +164,21 @@ public class ServerModels {
         public Map<String, UserListSM> getLists() {
             return lists;
         }
+
+        public String getDeviceModel() {
+            return deviceModel;
+        }
+
+        public String getDeviceManufacturer() {
+            return deviceManufacturer;
+        }
     }
 
     public static class UserListSM {
 
-        String name;
-        Map<String, Boolean> places;
+        public String name;
+        public Map<String, Boolean> places;
+
         public UserListSM() {
         }
 
