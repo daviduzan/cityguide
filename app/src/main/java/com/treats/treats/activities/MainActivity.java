@@ -13,8 +13,8 @@ import android.support.v7.widget.Toolbar;
 import com.treats.treats.R;
 import com.treats.treats.fragments.categories.caterories_grid.CategoriesGridFragment;
 import com.treats.treats.fragments.categories.category_list.CategoryListFragment;
-import com.treats.treats.fragments.user_lists.main.UserListsMainFragment;
-import com.treats.treats.fragments.user_lists.user_list.UserListFragment;
+import com.treats.treats.fragments.user_lists.personal_lists.PListsFragment;
+import com.treats.treats.fragments.user_lists.personal_list.PListFragment;
 import com.treats.treats.fragments.place.PlaceFragment;
 import com.treats.treats.fragments.trending.TrendingListFragment;
 import com.treats.treats.infra.factories.NodeFactory;
@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        // Create collections node to pre-fetch collections data
+        // Create some nodes to pre-fetch data
         NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.COLLECTIONS);
+        NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.PLACES);
 
     }
 
@@ -56,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         .commit();
     }
 
-public void showUserListFragment(String personalCollectionName) {
-        UserListFragment fragment = UserListFragment.newInstance(personalCollectionName);
+public void showPListFragment(String personalCollectionName) {
+        PListFragment fragment = PListFragment.newInstance(personalCollectionName);
         int[] animations = getAnimationsBasedOnRTL();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(animations[0], animations[1], animations[2], animations[3])
@@ -105,7 +106,7 @@ public void showUserListFragment(String personalCollectionName) {
                 case 1:
                     return CategoriesGridFragment.newInstance();
                 case 2:
-                    return UserListsMainFragment.newInstance();
+                    return PListsFragment.newInstance();
                 default:
                     return TrendingListFragment.newInstance();
             }

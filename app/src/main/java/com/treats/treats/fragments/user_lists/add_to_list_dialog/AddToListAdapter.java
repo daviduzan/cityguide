@@ -19,9 +19,17 @@ import java.util.ArrayList;
 public class AddToListAdapter extends BaseAdapter implements View.OnClickListener {
 
     private ArrayList<UserList> mUserLists;
+    private String mPlaceName;
 
-    public AddToListAdapter(ArrayList<UserList> userLists) {
+    public AddToListAdapter(ArrayList<UserList> userLists, String placeName) {
         mUserLists = userLists;
+        mPlaceName = placeName;
+
+        for (UserList list : mUserLists) {
+            if (list.getPlaces().contains(mPlaceName)) {
+                list.setChecked(true);
+            }
+        }
     }
 
     @Override
@@ -53,6 +61,9 @@ public class AddToListAdapter extends BaseAdapter implements View.OnClickListene
         }
 
         viewHolder.tvCollectionName.setText(mUserLists.get(i).getName());
+
+        viewHolder.cbAddToCollection.setChecked(mUserLists.get(i).isChecked());
+
         viewHolder.cbAddToCollection.setTag(i);
         viewHolder.cbAddToCollection.setOnClickListener(this);
 

@@ -1,6 +1,8 @@
-package com.treats.treats.fragments.user_lists.main;
+package com.treats.treats.fragments.user_lists.personal_lists;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,19 +16,19 @@ import com.treats.treats.infra.nodes.NodesProvider;
 import com.treats.treats.models.User;
 import com.treats.treats.nodes.UserDataNode;
 
-public class UserListsMainFragment extends BaseFragment implements UserDataNode.UserClientCallback, UserListsMainAdapter.OnItemClickListener {
+public class PListsFragment extends BaseFragment implements UserDataNode.UserClientCallback, PListsAdapter.OnItemClickListener {
 
-    private UserListsMainAdapter mAdapter;
+    private PListsAdapter mAdapter;
     private UserDataNode mUserDataNode;
 
-    public static UserListsMainFragment newInstance() {
+    public static PListsFragment newInstance() {
         Bundle args = new Bundle();
-        UserListsMainFragment fragment = new UserListsMainFragment();
+        PListsFragment fragment = new PListsFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public UserListsMainFragment() {
+    public PListsFragment() {
     }
 
     @Override
@@ -34,13 +36,13 @@ public class UserListsMainFragment extends BaseFragment implements UserDataNode.
         super.onCreate(savedInstanceState);
         mUserDataNode = (UserDataNode) NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.USER);
         mUserDataNode.registerClientCallback(this);
-        mAdapter = new UserListsMainAdapter(mUserDataNode.getUser().getUserLists());
+        mAdapter = new PListsAdapter(mUserDataNode.getUser().getUserLists());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_lists_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_personal_lists, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_user_lists_main);
 
         recyclerView.setHasFixedSize(true);
@@ -76,6 +78,23 @@ public class UserListsMainFragment extends BaseFragment implements UserDataNode.
 
     @Override
     public void onItemClick(int position) {
-        getMainActivity().showUserListFragment(mUserDataNode.getUser().getUserLists().get(position).getName());
+        getMainActivity().showPListFragment(mUserDataNode.getUser().getUserLists().get(position).getName());
+    }
+
+    @Override
+    public void onButtonClick(final int position) {
+
+        AlertDialog.Builder removeListDialogBuilder = new AlertDialog.Builder(getActivity());
+        removeListDialogBuilder.setMessage("Delete list?");
+        removeListDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mUserDataNode.removeUserList(mUserDataNode.getUser().getUserLists().get(position).getName());
+            }
+        });
+        removeListDialogBuilder.setNegativeButton("No", null);
+        AlertDialog removeFromCartDialog = removeListDialogBuilder.create();
+        removeFromCartDialog.show();
+
     }
 }

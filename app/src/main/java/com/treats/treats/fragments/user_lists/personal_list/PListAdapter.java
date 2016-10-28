@@ -1,4 +1,4 @@
-package com.treats.treats.fragments.user_lists.user_list;
+package com.treats.treats.fragments.user_lists.personal_list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,14 +16,14 @@ import com.treats.treats.nodes.PlacesDataNode;
 /**
  * Created by david.uzan on 9/1/2016.
  */
-public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private View.OnClickListener mOnClickListener;
     private OnItemClickListener mOnItemClickListener;
     private UserList mUserList;
     PlacesDataNode mPlacesDataNode;
 
-    public UserListAdapter(UserList userList) {
+    public PListAdapter(UserList userList) {
         mUserList = userList;
         mPlacesDataNode = (PlacesDataNode) NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.PLACES);
 

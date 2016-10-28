@@ -69,7 +69,7 @@ public class AddToListDialogFragment extends DialogFragment implements View.OnCl
         mUserDataNode = (UserDataNode) NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.USER);
         mUserDataNode.registerClientCallback(this);
 
-        mAddToListAdapter = new AddToListAdapter(mUserDataNode.getUser().getUserLists());
+        mAddToListAdapter = new AddToListAdapter(mUserDataNode.getUser().getUserLists(), mPlaceName);
     }
 
     @Override
@@ -104,6 +104,8 @@ public class AddToListDialogFragment extends DialogFragment implements View.OnCl
                 for (UserList userList : userLists) {
                     if (userList.isChecked()) {
                         mUserDataNode.addPlaceToUserList(userList.getName(), mPlaceName);
+                    } else {
+                        mUserDataNode.removePlaceFromUserList(userList.getName(), mPlaceName);
                     }
 
                 }

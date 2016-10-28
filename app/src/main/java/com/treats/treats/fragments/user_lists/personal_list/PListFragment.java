@@ -1,4 +1,4 @@
-package com.treats.treats.fragments.user_lists.user_list;
+package com.treats.treats.fragments.user_lists.personal_list;
 
 
 import android.os.Bundle;
@@ -16,18 +16,18 @@ import com.treats.treats.models.User;
 import com.treats.treats.nodes.UserDataNode;
 
 
-public class UserListFragment extends BaseFragment implements UserDataNode.UserClientCallback, UserListAdapter.OnItemClickListener {
+public class PListFragment extends BaseFragment implements UserDataNode.UserClientCallback, PListAdapter.OnItemClickListener {
 
     public static final String ARGS_KEY_USER_LIST_NAME = "args_key_user_list_name";
 
     private UserDataNode mUserDataNode;
-    private UserListAdapter mAdapter;
+    private PListAdapter mAdapter;
     private String mCollectionName;
 
-    public static UserListFragment newInstance(String personalCollectionName) {
+    public static PListFragment newInstance(String personalCollectionName) {
         Bundle args = new Bundle();
         args.putString(ARGS_KEY_USER_LIST_NAME, personalCollectionName);
-        UserListFragment fragment = new UserListFragment();
+        PListFragment fragment = new PListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,14 +37,14 @@ public class UserListFragment extends BaseFragment implements UserDataNode.UserC
         super.onCreate(savedInstanceState);
         mCollectionName = getArguments().getString(ARGS_KEY_USER_LIST_NAME);
         mUserDataNode = (UserDataNode) NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.USER);
-        mAdapter = new UserListAdapter(mUserDataNode.getUserList(mCollectionName));
+        mAdapter = new PListAdapter(mUserDataNode.getUserList(mCollectionName));
         mUserDataNode.registerClientCallback(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_personal_list, container, false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_category_list);
 

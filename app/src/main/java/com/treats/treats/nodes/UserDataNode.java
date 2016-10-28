@@ -120,11 +120,20 @@ public class UserDataNode extends BaseDataNode implements ValueEventListener {
 
     }
 
+    public void removeUserList(String name) {
+        mDatabaseReference.child("lists").child(name).removeValue();
+
+    }
+
     public void addPlaceToUserList(String listName, String place) {
         Map<String, Object> updateUserListMap = new HashMap<>();
         updateUserListMap.put(place, true);
 
         mDatabaseReference.child("lists").child(listName).child("places").updateChildren(updateUserListMap);
+    }
+
+    public void removePlaceFromUserList(String listName, String place) {
+        mDatabaseReference.child("lists").child(listName).child("places").child(place).removeValue();
     }
 
     public interface UserClientCallback extends ClientCallback {
