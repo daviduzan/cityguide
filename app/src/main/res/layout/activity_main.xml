@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.treats.treats.activities.CustomToolbar
+            <com.keepup.keepup.activities.CustomToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height"
@@ -47,7 +47,7 @@
 
                 </RelativeLayout>
 
-            </com.treats.treats.activities.CustomToolbar>
+            </com.keepup.keepup.activities.CustomToolbar>
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.treats.treats.activities.CustomToolbar
+    <com.keepup.keepup.activities.CustomToolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:text="Category"
                 android:textColor="@android:color/white"/>
         </RelativeLayout>
-    </com.treats.treats.activities.CustomToolbar>
+    </com.keepup.keepup.activities.CustomToolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_category_list"
