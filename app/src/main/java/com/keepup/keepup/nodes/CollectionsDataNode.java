@@ -53,6 +53,27 @@ public class CollectionsDataNode extends BaseDataNode implements ValueEventListe
     }
 
     @Override
+    public void registerValueEventListener() {
+        if (mSimpleCollectionsDatabaseReference != null) {
+            mSimpleCollectionsDatabaseReference.addValueEventListener(this);
+        }
+        if (mCategorizedCollectionsDatabaseReference != null) {
+            mCategorizedCollectionsDatabaseReference.addValueEventListener(this);
+        }
+    }
+
+    @Override
+    public void unregisterValueEventListener() {
+        if (mSimpleCollectionsDatabaseReference != null) {
+            mSimpleCollectionsDatabaseReference.removeEventListener(this);
+        }
+        if (mCategorizedCollectionsDatabaseReference != null) {
+            mCategorizedCollectionsDatabaseReference.removeEventListener(this);
+        }
+
+    }
+
+    @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         switch (dataSnapshot.getKey()) {
             case "simple-collections":

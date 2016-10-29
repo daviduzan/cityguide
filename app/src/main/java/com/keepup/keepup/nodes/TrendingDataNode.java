@@ -46,7 +46,22 @@ public class TrendingDataNode extends BaseDataNode implements ValueEventListener
     }
 
     @Override
+    public void registerValueEventListener() {
+        if (mDatabaseReference != null) {
+            mDatabaseReference.addValueEventListener(this);
+        }
+    }
+
+    @Override
+    public void unregisterValueEventListener() {
+        if (mDatabaseReference != null) {
+            mDatabaseReference.removeEventListener(this);
+        }
+    }
+
+    @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+        App.log("TDN onDataChange");
         ArrayList<TrendingGroup> allTrendingGroups = new ArrayList<>();
         for (DataSnapshot dateData : dataSnapshot.getChildren()) {
             ServerModels.TrendingGroupSM groupSM = dateData.getValue(ServerModels.TrendingGroupSM.class);

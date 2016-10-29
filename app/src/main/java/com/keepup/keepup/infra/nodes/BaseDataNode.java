@@ -75,6 +75,10 @@ public abstract class BaseDataNode extends BaseNode {
     protected abstract BaseNetworkNode onCreateNetworkNode();
     protected abstract ArrayList<ClientCallback> getClientCallbacks();
 
+    public abstract void registerValueEventListener();
+
+    public abstract void unregisterValueEventListener();
+
     public interface ClientCallback {
         void onPendingDataFromServer();
 

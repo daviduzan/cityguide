@@ -30,8 +30,7 @@ public class UserDataNode extends BaseDataNode implements ValueEventListener {
 
     public UserDataNode(NodeFactory.NodeType nodeType) {
         super(nodeType);
-        final
-        String userId = SharedPrefsHelper.getInstance(App.getAppContext()).getUserId();
+        final String userId = SharedPrefsHelper.getInstance(App.getAppContext()).getUserId();
         if (TextUtils.isEmpty(userId)) {
             createNewUser();
         } else {
@@ -78,7 +77,22 @@ public class UserDataNode extends BaseDataNode implements ValueEventListener {
     }
 
     @Override
+    public void registerValueEventListener() {
+        if (mDatabaseReference != null) {
+            mDatabaseReference.addValueEventListener(this);
+        }
+    }
+
+    @Override
+    public void unregisterValueEventListener() {
+        if (mDatabaseReference != null) {
+            mDatabaseReference.removeEventListener(this);
+        }
+    }
+
+    @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+        App.log("UDN onDataChange");
         if (!dataSnapshot.exists()) {
             createNewUser();
         } else {

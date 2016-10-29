@@ -27,6 +27,28 @@ public class NodesProvider {
         }
     }
 
+    public void unregisterActiveValueEventListeners() {
+        synchronized (mNodesMap) {
+            for (NodeFactory.NodeType nodeType : mNodesMap.keySet()) {
+                BaseDataNode baseDataNode = mNodesMap.get(nodeType);
+                if (baseDataNode != null) {
+                    baseDataNode.unregisterValueEventListener();
+                }
+            }
+        }
+    }
+
+    public void registerAliveValueEventListeners() {
+        synchronized (mNodesMap) {
+            for (NodeFactory.NodeType nodeType : mNodesMap.keySet()) {
+                BaseDataNode baseDataNode = mNodesMap.get(nodeType);
+                if (baseDataNode != null) {
+                    baseDataNode.registerValueEventListener();
+                }
+            }
+        }
+    }
+
     public void destroyDataNode(NodeFactory.NodeType nodeType) {
         synchronized (mNodesMap) {
             BaseDataNode baseDataNode = mNodesMap.get(nodeType);

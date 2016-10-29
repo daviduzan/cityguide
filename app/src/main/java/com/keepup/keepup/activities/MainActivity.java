@@ -44,7 +44,18 @@ public class MainActivity extends AppCompatActivity {
         // Create some nodes to pre-fetch data
         NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.COLLECTIONS);
         NodesProvider.getInstance().getDataNode(NodeFactory.NodeType.PLACES);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        NodesProvider.getInstance().registerAliveValueEventListeners();
+    }
+
+    @Override
+    protected void onStop() {
+//        NodesProvider.getInstance().unregisterActiveValueEventListeners();
+        super.onStop();
     }
 
     public void showCategoryListFragment(String categoryCollectionName) {

@@ -45,8 +45,22 @@ public class CategoriesDataNode extends BaseDataNode implements ValueEventListen
     }
 
     @Override
+    public void registerValueEventListener() {
+        if (mDatabaseReference != null) {
+            mDatabaseReference.addValueEventListener(this);
+        }
+    }
+
+    @Override
+    public void unregisterValueEventListener() {
+        if (mDatabaseReference != null) {
+            mDatabaseReference.removeEventListener(this);
+        }
+    }
+
+    @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        App.log("onDataChange");
+        App.log("CDN onDataChange");
         ArrayList<Category> categories = new ArrayList<>();
         for (DataSnapshot child : dataSnapshot.getChildren()) {
             ServerModels.CategorySM categorySM = child.getValue(ServerModels.CategorySM.class);
