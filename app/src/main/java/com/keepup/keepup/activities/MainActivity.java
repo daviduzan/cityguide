@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showCategoryListFragment(String categoryCollectionName) {
         CategoryListFragment fragment = CategoryListFragment.newInstance(categoryCollectionName);
-        int[] animations = getAnimationsBasedOnRTL();
+        int[] animations = getAnimationsBasedOnRTLInOnly();
         getFragmentManager().beginTransaction()
         .setCustomAnimations(animations[0], animations[1], animations[2], animations[3])
         .addToBackStack(null)
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
 public void showPListFragment(String personalCollectionName) {
         PListFragment fragment = PListFragment.newInstance(personalCollectionName);
-        int[] animations = getAnimationsBasedOnRTL();
+        int[] animations = getAnimationsBasedOnRTLInOnly();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(animations[0], animations[1], animations[2], animations[3])
                 .addToBackStack(null)
@@ -80,7 +80,7 @@ public void showPListFragment(String personalCollectionName) {
 
     public void showPlaceFragment(String placeName) {
         PlaceFragment fragment = PlaceFragment.newInstance(placeName);
-        int[] animations = getAnimationsBasedOnRTL();
+        int[] animations = getAnimationsBasedOnRTLInOnly();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(animations[0], animations[1], animations[2], animations[3])
                 .addToBackStack(null)
@@ -93,6 +93,14 @@ public void showPListFragment(String personalCollectionName) {
             return new int[]{R.animator.slide_in_from_left, R.animator.slide_out_to_right, R.animator.slide_in_from_right, R.animator.slide_out_to_left};
         }else {
             return new int[]{R.animator.slide_in_from_right, R.animator.slide_out_to_left, R.animator.slide_in_from_left, R.animator.slide_out_to_right};
+        }
+    }
+
+    private int[] getAnimationsBasedOnRTLInOnly(){
+        if(mRTL){
+            return new int[]{R.animator.slide_in_from_left, 0, R.animator.slide_in_from_right, 0};
+        }else {
+            return new int[]{R.animator.slide_in_from_right, 0, R.animator.slide_in_from_left, 0};
         }
     }
 

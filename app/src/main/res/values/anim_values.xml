@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="window_fade_duration" type="integer">250</item>
-    <integer name="top_level_transition_length">250</integer>
+    <integer name="top_level_transition_length">150</integer>
 </resources>

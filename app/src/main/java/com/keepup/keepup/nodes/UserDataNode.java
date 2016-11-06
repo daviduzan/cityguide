@@ -42,7 +42,8 @@ public class UserDataNode extends BaseDataNode implements ValueEventListener {
 
     private void createNewUser() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String userId;DatabaseReference mainRef = database.getReference();
+        String userId;
+        DatabaseReference mainRef = database.getReference();
         DatabaseReference usersRef = mainRef.child("users");
         DatabaseReference newUserRef = usersRef.push();
         ServerModels.UserSM userSM = new ServerModels.UserSM();
